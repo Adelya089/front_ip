@@ -1,6 +1,143 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #76579d; color: #332444; font: 15px Arial, sans-serif; }
+button, input, select { font: inherit; }
+button { cursor: pointer; border: 1px solid #cbbfd9; background: white; color: #493268; border-radius: 4px; padding: 8px 12px; }
+button:hover:not(:disabled) { background: #eee8f6; }
+button:disabled { opacity: .45; cursor: default; }
+input, select { padding: 8px 10px; border: 1px solid #ccc2d7; border-radius: 4px; background: white; max-width: 100%; }
+h1 { font-size: 25px; margin: 0 0 18px; }
+h2 { font-size: 18px; margin: 22px 0 12px; }
+p { line-height: 1.5; }
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 225px; padding: 25px 14px; background: #60417f; color: white; flex-shrink: 0; display: flex; flex-direction: column; min-height: 100vh; }
+.sidebar h2 { font-size: 19px; line-height: 1.3; padding: 0 10px; margin: 0 0 27px; }
+.sidebar-nav button { display: block; border: 0; width: 100%; text-align: left; margin-bottom: 5px; padding: 12px 10px; background: transparent; color: #f0eaf6; }
+.sidebar-nav button:hover, .sidebar-nav button.selected { background: #8060a6; color: white; }
+.account { border-top: 1px solid #685675; margin: auto 8px 0; padding-top: 18px; display: grid; gap: 12px; }
+.admin-nav { border-top: 1px solid #685675; margin: 18px 6px 0; padding-top: 12px; }
+.sidebar-nav { display: block; }
+/* Жанры выбираются карточками — без дополнительных библиотек. */
+.genre-cards, .catalog-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin: 15px 0 24px; }
+.genre-card, .catalog-card { background: #f7f2fd; border: 1px solid #d8c9e8; border-radius: 7px; color: #493268; }
+.genre-card { text-align: left; min-height: 95px; display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 14px; }
+.genre-card strong { font-size: 17px; }
+.genre-card span, .card-open span, .card-open small { color: #73588d; font-size: 13px; }
+.genre-card:hover { background: #eee4fa; }
+.genre-card.active { border: 2px solid #41215e; background: #e4d3f5; }
+.catalog-card { overflow: hidden; padding: 12px; }
+.card-open { background: none; border: 0; padding: 0; display: flex; flex-direction: column; align-items: stretch; text-align: left; gap: 8px; width: 100%; color: #402b5e; }
+.card-open:hover { background: none; }
+.card-open strong { font-size: 16px; }
+.card-picture { aspect-ratio: 4 / 3; display: grid; place-items: center; background: #e8dbf4; border-radius: 4px; overflow: hidden; color: #8865ad; font-size: 40px; }
+.card-picture img { width: 100%; height: 100%; object-fit: cover; }
+.catalog-card .actions { margin-top: 12px; }
 
-        body{background:#6a4c93;color:white;font:15px Arial,sans-serif;margin:24px auto;max-width:1150px;padding:0 14px}h1,h2{color:white}hr{border:0;border-top:1px solid #ad98c6;margin:24px 0}input,select{padding:8px;margin:3px;border:1px solid #ddd;border-radius:5px;max-width:95%}button{padding:8px 12px;margin:3px;border:0;border-radius:5px;cursor:pointer;background:#f4eefb;color:#301d47}button:hover{background:#e5d6f4}button:disabled{opacity:.5;cursor:not-allowed}table{border-collapse:collapse;margin-top:12px;width:100%;display:none}th,td{border:1px solid #ac96c4;padding:9px;text-align:left;overflow-wrap:anywhere}th{background:#503474}.table-scroll{overflow-x:auto}.hint{opacity:.87;font-size:13px}.notice{padding:10px 12px;border-radius:6px;background:#543477;margin:10px 0;display:none;white-space:pre-wrap}.notice.error{background:#933f59}form{display:flex;flex-wrap:wrap;align-items:center;gap:3px}.stats{display:none;white-space:pre-wrap;background:#4d3472;padding:12px;border-radius:6px;overflow:auto}.actions{min-width:130px}.bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.bar h2{margin-right:auto}label{font-size:14px}
-    
-.pager{display:flex;gap:7px;align-items:center;margin:10px 0}.muted{opacity:.85}.table-scroll table{display:table}.notice{display:block}.stats{display:block}table{display:table}
+.browse-section { margin-top: 20px; }
+.account button { justify-self: start; }
+.content { flex: 1; min-width: 0; padding: 30px 36px; background: #76579d; }
+.content > h1, .content > h2, .browse-section > h2, .content > p, .browse-section > p { color: white; }
+.toolbar { display: flex; justify-content: space-between; gap: 12px; margin: 16px 0; }
+.toolbar input { width: 260px; }
+.filter { color: white; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.table-wrap { overflow-x: auto; background: white; border: 1px solid #e2dae8; border-radius: 4px; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: 13px 14px; border-bottom: 1px solid #eee9f1; vertical-align: middle; }
+th { background: #f1ecf5; font-size: 13px; }
+tr:last-child td { border-bottom: 0; }
+.text-button, .link { color: #65418d; background: none; border: 0; padding: 0; text-decoration: underline; text-align: left; }
+.actions { display: flex; gap: 7px; flex-wrap: wrap; }
+.actions button { font-size: 13px; padding: 5px 8px; }
+.pagination { color: white; display: flex; gap: 16px; align-items: center; justify-content: flex-end; margin-top: 17px; }
+.empty { padding: 16px; }
+.message { background: #f0eafa; padding: 12px; border-left: 3px solid #76529d; }
+.simple-list { background: white; padding: 14px 14px 14px 34px; line-height: 2; border: 1px solid #e2dae8; }
+.login { width: min(410px, calc(100% - 30px)); margin: 90px auto; background: white; padding: 30px; border: 1px solid #e1d8e9; }
+.login h1 { color: #503468; }
+.login form, .modal form, .user-form { display: grid; gap: 13px; }
+.login label, .modal label, .user-form label { display: grid; gap: 6px; }
+.login form button, .modal button[type=submit], .user-form button[type=submit] { background: #65418d; border-color: #65418d; color: white; }
+.login .link { margin-top: 16px; }
+.center { text-align: center; margin: 80px; }
+.user-form { grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: end; margin-bottom: 22px; }
+.user-form h2 { grid-column: 1 / -1; margin: 0; }
+.modal { position: fixed; inset: 0; background: #21152a80; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal form { padding: 25px; background: white; border-radius: 6px; width: min(430px, 100%); max-height: 95vh; overflow: auto; }
+.modal h2 { margin: 0; }
+.buttons { display: flex; gap: 10px; }
+@media (max-width: 750px) { .layout { display: block; } .sidebar { width: 100%; padding: 15px; } .sidebar-nav button { display: inline-block; width: auto; } .account { margin: 12px 0 0; } .content { padding: 22px 15px; } .catalog-cards, .genre-cards { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); } .user-form { grid-template-columns: 1fr; } .toolbar input { width: 100%; } }
 
-.auth-header {display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.auth-panel {max-width:430px;margin:65px auto;padding:24px;border-radius:12px;background:#503474}.auth-panel form{display:flex;flex-direction:column;align-items:stretch}.auth-panel input{max-width:100%}.auth-panel .notice{display:block}
+@media (max-width: 750px) { .sidebar { min-height: auto; } .account { margin-top: 15px; } }
+/* Светлая фиолетовая тема исходного учебного интерфейса. */
+.content .link { color: #fff; }
+.content .message { color: #422c5b; }
+.catalog-card .actions button { background: #fff; }
+.user-form h2 { color: #fff; }
+@media (max-width: 750px) {
+  .genre-cards, .catalog-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Обычная страница музыкального каталога: светло-фиолетовая и компактная. */
+body { background: #eee8f5; }
+.content { background: #eee8f5; padding: 28px 34px; }
+.content > h1, .content > h2, .browse-section > h2, .content > p, .browse-section > p,
+.user-form h2 { color: #39264e; }
+.content .link { color: #65418d; }
+.filter, .pagination { color: #493268; }
+.sidebar { background: #65458b; }
+.sidebar-nav button.selected { background: #8464aa; border-radius: 5px; }
+.genre-cards { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
+.genre-card { min-height: 120px; padding: 14px; border-radius: 8px; background: #fff; gap: 6px; box-shadow: none; }
+.genre-card.active { background: #f4ebff; border: 2px solid #714b9a; }
+.genre-icon { font-size: 26px !important; color: #7956a5 !important; line-height: 1; }
+.section-note { margin: -4px 0 8px; color: #715c82 !important; font-size: 14px; }
+.catalog-cards { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.catalog-card { background: #fff; border-radius: 8px; padding: 12px; }
+.card-picture { aspect-ratio: 1 / 1; border-radius: 6px; }
+.card-open strong { font-size: 16px; }
+.card-open span, .card-open small { line-height: 1.4; }
+.song-list { border: 1px solid #ded4e8; background: #fff; border-radius: 8px; overflow: hidden; }
+.song-row { display: flex; gap: 14px; align-items: center; padding: 10px 16px; border-bottom: 1px solid #f0eaf5; min-height: 66px; }
+.song-row:last-child { border-bottom: 0; }
+.song-row:hover { background: #f9f5fd; }
+.song-number { width: 20px; text-align: center; color: #897a95; flex-shrink: 0; }
+.song-art { width: 43px; height: 43px; flex-shrink: 0; display: grid; place-items: center; border-radius: 5px; background: #e9dff3; color: #735295; font-size: 23px; overflow: hidden; }
+.song-art img { width: 100%; height: 100%; object-fit: cover; }
+.song-info { flex: 1; min-width: 80px; display: flex; flex-direction: column; gap: 4px; }
+.song-info strong { font-size: 14px; font-weight: 600; color: #362643; overflow-wrap: anywhere; }
+.song-info small, .song-meta { color: #746581; font-size: 12px; }
+.song-meta, .song-album, .detail-artist { border: 0; background: none; padding: 0; text-align: left; color: #735292; text-decoration: none; }
+.song-meta:hover, .song-album:hover, .detail-artist:hover { text-decoration: underline; background: transparent; }
+.song-album { flex: 0 1 25%; min-width: 70px; color: #6d6079; font-size: 13px; overflow-wrap: anywhere; }
+.song-duration { color: #786b80; font-size: 13px; white-space: nowrap; }
+.song-actions .actions { flex-wrap: nowrap; }
+.song-actions .actions button { white-space: nowrap; font-size: 12px; }
+.detail-heading { display: flex; align-items: center; gap: 20px; background: #fff; padding: 20px; border: 1px solid #dfd4e9; border-radius: 9px; margin: 15px 0 24px; }
+.detail-cover { width: 112px; height: 112px; flex-shrink: 0; background: #e9dcf5; border-radius: 7px; display: grid; place-items: center; font-size: 54px; color: #7656a0; overflow: hidden; }
+.detail-cover img { width: 100%; height: 100%; object-fit: cover; }
+.detail-heading h2 { margin: 5px 0 8px; font-size: 24px; }
+.detail-heading p { color: #766580; margin: 0; font-size: 14px; }
+.detail-type { font-size: 12px; color: #7f698e; }
+.songs-panel h2 { color: #39264e; }
+.toolbar button, .user-form button[type=submit] { background: #735196; color: white; border-color: #735196; }
+.toolbar button:hover, .user-form button[type=submit]:hover { background: #624384; }
+.pagination button { background: white; }
+@media (max-width: 760px) {
+ .content { padding: 20px 14px; }
+ .song-row { gap: 8px; padding: 10px; }
+ .song-album { display: none; }
+ .song-actions .actions { flex-wrap: wrap; }
+ .detail-cover { width: 75px; height: 75px; font-size: 34px; }
+ .detail-heading { padding: 12px; }
+ .detail-heading h2 { font-size: 19px; }
+}
+
+.form-error { margin: 0; padding: 10px; background: #fff0f0; color: #802838; border: 1px solid #e2aaaa; border-radius: 4px; font-size: 13px; }
+
+/* Простая статистика для администратора */
+.statistics-panel { margin-top: 26px; padding: 18px; background: #fff; border: 1px solid #dfd1e9; border-radius: 9px; }
+.statistics-panel h2 { margin: 0 0 14px; font-size: 19px; }
+.stats-filter { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.stats-filter label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.stats-filter input { max-width: 220px; padding: 8px 10px; border: 1px solid #d3c2de; border-radius: 5px; }
+.statistics-panel table { width: 100%; border-collapse: collapse; }
+.statistics-panel th, .statistics-panel td { padding: 10px; text-align: left; border-bottom: 1px solid #eadfee; }
